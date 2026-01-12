@@ -436,11 +436,15 @@ error_log($xml);
     /**
      * 处理服务器配置URL验证
      *
-     */    
+     */
     private function accessAuth()
     {
-        if ($this->echostr !== false && $this->checkSignature()) {
+        if ($this->echostr !== false) {
+            if (!$this->checkSignature()) {
+                exit('Invalid signature.');
+            }
             @error_log('accessAuth Error.', 0);
+            header('Content-Type: text/plain; charset=utf-8');
             exit($this->echostr);
         }
     }
